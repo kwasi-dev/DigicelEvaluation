@@ -1,4 +1,4 @@
-from app import db
+from handlers.DatabaseHandler import db
 
 
 class CustomerSubscription(db.Model):
