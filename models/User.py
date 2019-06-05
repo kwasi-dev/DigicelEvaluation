@@ -29,6 +29,22 @@ class User(db.Model):
     password = db.Column(db.LargeBinary())
 
 
+class UserAPI(Resource):
+    def get(self):
+        get_params = request.args
+
+        sess_id = get_params['id']
+
+        qry = UserSession.get_user_by_session(sess_id)
+
+        if qry is None:
+            return jsonify(status=False, message="Your session has expired, please login again")
+
+        user = User.query.filter(User.agent_id == qry.agent_id).first()
+
+        return jsonify(status=True, email=user.email)
+
+
 class UserReg(Resource):
     def post(self):
         json = request.get_json(force=True)
@@ -69,3 +85,4 @@ class UserLogin(Resource):
 
 api.add_resource(UserReg, '/register')
 api.add_resource(UserLogin, '/login')
+api.add_resource(UserAPI, '/user', )
