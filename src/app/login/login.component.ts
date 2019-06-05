@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,13 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  constructor() { }
+  constructor(private router: Router) { }
   username: string;
   password: string;
   ngOnInit() {
   }
   login(): void {
-    alert ('TODO: login functionality: Username=' + this.username + ' Password= ' + this.password);
+    if (this.username === 'logan20') {
+      this.router.navigate(['home']);
+    } else {
+      alert ('TODO: login functionality: Username=' + this.username + ' Password= ' + this.password);
+    }
   }
 
 }
