@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import {StorageServiceModule} from 'angular-webstorage-service';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    StorageServiceModule,
     CustomMaterialModule,
     FormsModule,
     HttpClientModule

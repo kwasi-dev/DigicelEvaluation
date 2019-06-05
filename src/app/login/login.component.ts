@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import { LOCAL_STORAGE, SESSION_STORAGE, WebStorageService } from "angular-webstorage-service";
 
 @Component({
   selector: 'app-login',
@@ -8,10 +9,11 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private http: HttpClient) { }
   username: string;
   password: string;
   ngOnInit() {
+
   }
   login(): void {
     if (this.password === undefined || this.username === undefined) {
@@ -29,7 +31,7 @@ export class LoginComponent implements OnInit {
         const result = JSON.parse(JSON.stringify(res));
         console.log(result);
         if (result.status) {
-          // TODO: store login token
+          this.storage.set('session_id', result.token);
           this.router.navigate(['home']);
           console.log(result);
         } else {
