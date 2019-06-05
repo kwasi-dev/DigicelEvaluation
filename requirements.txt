@@ -1,4 +1,6 @@
 psycopg2
 flask
 flask-sqlalchemy
-flask-login
+flask-jsonpify
+flask-restful
+flask-cors

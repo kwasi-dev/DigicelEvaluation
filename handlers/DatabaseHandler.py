@@ -9,7 +9,7 @@ def set_database(app):
 
 
 def create_all():
-    import models
     global db
+    import models
     db.create_all()
     db.session.commit()
