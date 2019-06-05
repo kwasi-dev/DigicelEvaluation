@@ -4,6 +4,8 @@ from flask import jsonify, request
 from handlers.ApiHandler import api
 from models import UserSession
 import bcrypt
+import string
+import random
 
 
 def hash_password(password):
@@ -14,8 +16,10 @@ def verify_password(password, hashed):
     return bcrypt.checkpw(password.encode('utf8'), hashed)
 
 
-def generate_session_token():
-    return "mtriemitmreimtjgkrelmtg"
+def generate_session_token(token_len):
+    # Generate some random token here
+    letters = string.ascii_letters + string.digits
+    return ''.join((random.choice(letters) for i in range(token_len)))
 
 
 class User(db.Model):
@@ -56,7 +60,7 @@ class UserLogin(Resource):
         if not verify_password(password, qry.password):
             return jsonify(status=False, message="Incorrect credentials!")
 
-        token = generate_session_token()
+        token = generate_session_token(50)
         new_login = UserSession.UserSession(agent_id=qry.agent_id, session_token=token)
         db.session.add(new_login)
         db.session.commit()
