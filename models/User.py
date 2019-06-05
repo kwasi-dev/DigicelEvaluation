@@ -3,10 +3,15 @@ from flask_restful import Resource
 from flask import jsonify, request
 from handlers.ApiHandler import api
 from models import UserSession
+import bcrypt
 
 
 def hash_password(password):
-    return password
+    return bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+
+
+def verify_password(password, hashed):
+    return bcrypt.checkpw(password.encode('utf8'), hashed)
 
 
 def generate_session_token():
@@ -17,7 +22,7 @@ class User(db.Model):
     agent_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True)
     username = db.Column(db.String(20), unique=True)
-    password = db.Column(db.String(80))
+    password = db.Column(db.LargeBinary())
 
 
 class UserReg(Resource):
@@ -43,9 +48,12 @@ class UserLogin(Resource):
         username = json['username']
         password = json['password']
 
-        qry = User.query.filter((User.username == username), (User.password == hash_password(password))).first()
+        qry = User.query.filter(User.username == username).first()
 
         if qry is None:
+            return jsonify(status=False, message="Incorrect credentials!")
+
+        if not verify_password(password, qry.password):
             return jsonify(status=False, message="Incorrect credentials!")
 
         token = generate_session_token()
