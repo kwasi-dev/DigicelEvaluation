@@ -8,3 +8,5 @@ class UserSession(db.Model):
 
 def get_user_by_session(sess_id):
     return UserSession.query.filter(UserSession.session_token == sess_id).first()
+
+

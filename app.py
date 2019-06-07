@@ -6,6 +6,8 @@ from flask_cors import CORS
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = b'N\x8e\xd1\xed\xadHE\xe8\xcbn\xa3o|\x10j\xf9'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://digievaluation:superstrongpassword@localhost/digi'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # Enable CORS
 CORS(app)

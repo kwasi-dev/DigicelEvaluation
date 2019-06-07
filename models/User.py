@@ -24,6 +24,8 @@ def generate_session_token(token_len):
 
 class User(db.Model):
     agent_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(80))
+    last_name = db.Column(db.String(80))
     email = db.Column(db.String(80), unique=True)
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.LargeBinary())
@@ -42,7 +44,7 @@ class UserAPI(Resource):
 
         user = User.query.filter(User.agent_id == qry.agent_id).first()
 
-        return jsonify(status=True, email=user.email)
+        return jsonify(status=True, email=user.email, first_name=user.first_name, last_name=user.last_name)
 
 
 class UserReg(Resource):
@@ -51,11 +53,14 @@ class UserReg(Resource):
         username = json['username']
         password = json['password']
         email = json['email']
+        l_name = json['l_name']
+        f_name = json['f_name']
 
         qry = User.query.filter((User.username == username) | (User.email == email)).first()
 
         if qry is None:
-            new_user = User(email=email, username=username, password=hash_password(password))
+            new_user = User(email=email, username=username, password=hash_password(password),
+                            first_name=f_name, last_name=l_name)
             db.session.add(new_user)
             db.session.commit()
             return jsonify(status=True)
