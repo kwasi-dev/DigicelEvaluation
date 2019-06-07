@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import {Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {NavsvcService} from "../navsvc.service";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private  http: HttpClient) { }
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private  http: HttpClient, private nav: NavsvcService) { }
 
   private name = '';
 
@@ -40,5 +41,9 @@ export class HomeComponent implements OnInit {
 
   logout() {
     console.log("Logout nw");
+  }
+
+  toggleNavbar() {
+    this.nav.toggle();
   }
 }

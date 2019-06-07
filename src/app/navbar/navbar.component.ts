@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NavsvcService} from "../navsvc.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,15 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public nav: NavsvcService) {
+  }
 
-  isCollapsed = true;
 
   ngOnInit() {
   }
 
   toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
+    this.nav.toggle();
   }
 
 }
