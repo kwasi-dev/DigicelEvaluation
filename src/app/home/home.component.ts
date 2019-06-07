@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import {Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {NavsvcService} from "../navsvc.service";
+import {NavsvcService} from '../navsvc.service';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +40,8 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    console.log("Logout nw");
+    this.storage.remove('session_id');
+    this.router.navigate(['login']);
   }
 
   toggleNavbar() {
