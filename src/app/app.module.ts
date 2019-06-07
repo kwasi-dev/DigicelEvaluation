@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import {StorageServiceModule} from 'angular-webstorage-service';
+import {AuthGuardService} from './auth-guard.service';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import {StorageServiceModule} from 'angular-webstorage-service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

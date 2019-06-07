@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
 
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private  http: HttpClient) { }
 
+  private name = '';
+
   ngOnInit() {
     const sessionId = this.storage.get('session_id');
     if (sessionId == null) {
@@ -27,11 +29,16 @@ export class HomeComponent implements OnInit {
     ).subscribe(
       res => {
         const result = JSON.parse(JSON.stringify(res));
+        this.name = result.first_name + ' ' + result.last_name;
         console.log(result);
       }, it => {
         console.log(it);
         alert('An error occurred, please try again later');
       }
     );
+  }
+
+  logout() {
+    console.log("Logout nw");
   }
 }

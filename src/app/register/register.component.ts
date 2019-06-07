@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 export class RegisterComponent implements OnInit {
   username: string;
   password: string;
+  f_name: string;
+  l_name: string;
   confirmPassword: string;
   email: string;
   constructor(private http: HttpClient, private router:Router) { }
@@ -18,7 +20,8 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void {
-    if (this.email === undefined || this.confirmPassword === undefined || this.password === undefined || this.username === undefined) {
+    if (this.email === undefined || this.confirmPassword === undefined || this.password === undefined
+      || this.username === undefined || this.f_name === undefined || this.l_name === undefined) {
       alert('Please enter all fields!');
       return;
     }
@@ -29,6 +32,8 @@ export class RegisterComponent implements OnInit {
     this.http.post('http://127.0.0.1:5000/register', {
       username: this.username,
       password: this.password,
+      f_name: this.f_name,
+      l_name: this.l_name,
       email: this.email
     },
       {headers: { 'Content-Type': 'application/json' }}

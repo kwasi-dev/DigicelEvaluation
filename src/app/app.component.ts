@@ -1,6 +1,4 @@
-import {Router} from '@angular/router';
-import {Component, Inject, OnInit} from '@angular/core';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +7,9 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 })
 export class AppComponent implements OnInit{
 
-  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router) { }
+  constructor() { }
 
   ngOnInit() {
-      const sessionId = this.storage.get('session_id');
-      if (sessionId == null) {
-        this.router.navigate(['login']);
-        return;
-      }
-      this.router.navigate(['home']);
   }
 
 
