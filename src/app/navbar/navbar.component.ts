@@ -10,8 +10,6 @@ export class NavbarComponent implements OnInit {
 
   constructor(public nav: NavsvcService) {
   }
-
-
   ngOnInit() {
   }
 

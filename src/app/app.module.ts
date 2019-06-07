@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import {StorageServiceModule} from 'angular-webstorage-service';
 import {AuthGuardService} from './auth-guard.service';
+import { CustomerComponent } from './customer/customer.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import {AuthGuardService} from './auth-guard.service';
     LoginComponent,
     NavbarComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    CustomerComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
