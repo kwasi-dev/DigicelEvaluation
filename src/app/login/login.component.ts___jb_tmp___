@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from "angular-webstorage-service";
-import {RestService} from "../rest.service";
+import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import {RestService} from '../rest.service';
 
 @Component({
   selector: 'app-login',
