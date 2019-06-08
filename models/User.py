@@ -38,11 +38,7 @@ class sessionAPI(Resource):
         db.session.commit()
 
 class UserAPI(Resource):
-    def get(self):
-        get_params = request.args
-
-        sess_id = get_params['id']
-
+    def get(self, sess_id):
         qry = UserSession.get_user_by_session(sess_id)
 
         if qry is None:
@@ -97,5 +93,5 @@ class UserLogin(Resource):
 
 api.add_resource(UserReg, '/register')
 api.add_resource(UserLogin, '/login')
-api.add_resource(UserAPI, '/user')
+api.add_resource(UserAPI, '/user/<sess_id>')
 api.add_resource(sessionAPI, '/logout/<sess_id>')
