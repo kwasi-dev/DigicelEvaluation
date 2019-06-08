@@ -51,4 +51,14 @@ export class RestService {
   getCustomers() {
     return this.http.get(CUSTOMER_URL, HEADER_JSON);
   }
+
+  addCustomer(firstName, lastName, mail, cntct){
+    return this.http.post(CUSTOMER_URL,{
+        first_name: firstName,
+        last_name: lastName,
+        email: mail,
+        contact: cntct
+      },
+      HEADER_JSON);
+  }
 }
