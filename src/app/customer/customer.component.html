@@ -1,30 +1,39 @@
 <div id="wrapper">
   <app-navbar></app-navbar>
-   <div class="container">
-    <!-- Content Row -->
-    <div class="row">
-      <table class="table table-hover w-100" cellspacing="0">
-        <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Contact</th>
-          <th style='display:none;'>Edit</th>
-          <th style='display:none;'>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let customer of customers">
-          <td>{{customer.firstName}}</td>
-          <td>{{customer.lastName}}</td>
-          <td>{{customer.email}}</td>
-          <td>{{customer.contact}}</td>
-          <td (click)="onRowClick(customer.customer_id)"><span class="input-group-text"><i class="fas fa-edit"></i></span></td>
-          <td (click)="onRowClick(customer.customer_id)"><span class="input-group-text"><i class="fas fa-trash"></i></span></td>
-        </tr>
-        </tbody>
-      </table>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <app-topnavbar></app-topnavbar>
+      <div class="container">
+        <div class="row">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-user fa-sm text-white-50"></i> Create Customer</a>
+          </div>
+        </div>
+          <table class="table table-striped ml-auto mr-auto">
+            <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Contact</th>
+              <th style='display:none;'>Edit</th>
+              <th style='display:none;'>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let customer of customers">
+              <td>{{customer.firstName}}</td>
+              <td>{{customer.lastName}}</td>
+              <td>{{customer.email}}</td>
+              <td>{{customer.contact}}</td>
+              <td (click)="onRowClick(customer.customer_id)"><span class="input-group-text"><i
+                class="fas fa-edit"></i></span></td>
+              <td (click)="onRowClick(customer.customer_id)"><span class="input-group-text"><i
+                class="fas fa-trash"></i></span></td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
     </div>
   </div>
 </div>

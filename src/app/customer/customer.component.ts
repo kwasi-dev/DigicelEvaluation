@@ -16,14 +16,12 @@ export class CustomerComponent implements OnInit {
   constructor(private http: HttpClient, private chRef: ChangeDetectorRef) { }
   ngOnInit() {
     const table: any = $('table');
-        this.http.get('http://127.0.0.1:5000/customer', {headers: { 'Content-Type': 'application/json' }})
+    this.http.get('http://127.0.0.1:5000/customer', {headers: { 'Content-Type': 'application/json' }})
       .subscribe((data: any[]) => {
         this.customers = data;
         this.chRef.detectChanges();
 
-        this.dataTable = table.DataTable(
-          {rowId: 'customer_id'}
-        );
+        this.dataTable = table.DataTable();
       });
 
   }
