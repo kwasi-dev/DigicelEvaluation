@@ -42,6 +42,12 @@ export class CustomerComponent implements OnInit {
       });
     this.resetServicesSelected();
   }
+  resetFormData() {
+    this.firstName = undefined;
+    this.lastName = undefined;
+    this.email = undefined;
+    this.contact = undefined;
+  }
   resetServicesSelected() {
     this.servicesSelected = {
       pp1: false,
@@ -53,36 +59,15 @@ export class CustomerComponent implements OnInit {
 
   showCreateModal() {
     this.mode = 'Create';
+    this.resetServicesSelected();
+    this.resetFormData();
     this.showModal = true;
-    console.log('show modal');
   }
   toggleModal() {
     this.showModal = !this.showModal;
   }
   hideModal() {
     this.showModal = false;
-  }
-  createCustomer() {
-    if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
-      alert('Please enter all fields');
-      return;
-    }
-    this.rest.addCustomer(this.firstName, this.lastName, this.email, this.contact)
-      .subscribe(
-        res => {
-          const result = JSON.parse(JSON.stringify(res));
-          if (result.status) {
-            alert('Customer created successfully');
-            this.showModal = false;
-          } else {
-            alert (result.message);
-          }
-        },
-        it => {
-          console.log(it);
-          alert('An error occurred, please try again later');
-        }
-      );
   }
 
   loadVars(customer) {
@@ -93,7 +78,7 @@ export class CustomerComponent implements OnInit {
   }
 
   viewCustomer(customer) {
-    this.mode = 'View';
+    this.mode = 'Edit';
     this.loadVars(customer);
 
     this.rest.loadCustomerServices(customer.customer_id).subscribe(res => {
@@ -134,4 +119,44 @@ export class CustomerComponent implements OnInit {
     });
   }
 
+  createEditCustomer() {
+    if (this.mode === 'Create') {
+      if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
+        alert('Please enter all fields');
+        return;
+      }
+      this.rest.addCustomer(this.firstName, this.lastName, this.email, this.contact)
+        .subscribe(
+          res => {
+            const result = JSON.parse(JSON.stringify(res));
+            if (result.status) {
+              const newID = result.id;
+              this.rest.updateSubscriptions(newID, this.getSelectedSubscriptions()).subscribe(res => {
+                console.log(res);
+              },
+                error1 => {
+                console.log(error1);
+                });
+              this.showModal = false;
+            } else {
+              alert (result.message);
+            }
+          },
+          it => {
+            console.log(it);
+            alert('An error occurred, please try again later');
+          }
+        );
+    }
+  }
+
+  getSelectedSubscriptions() {
+    const result = [];
+    if (this.servicesSelected.pp1) { result.push({id: 1}); }
+    if (this.servicesSelected.pp2) { result.push({id: 2}); }
+    if (this.servicesSelected.hi1) { result.push({id: 3}); }
+    if (this.servicesSelected.hctv) { result.push({id: 4}); }
+
+    return {subscriptions: result};
+  }
 }

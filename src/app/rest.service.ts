@@ -71,4 +71,11 @@ export class RestService {
   getServices() {
     return this.http.get(SUBSCRIPTION_URL, HEADER_JSON);
   }
+
+
+  updateSubscriptions(id, selectedSubscriptions) {
+    const updateSubURL = `${SUBSCRIPTION_URL}/${id}`;
+    return this.http.put(updateSubURL, selectedSubscriptions, HEADER_JSON);
+
+  }
 }
