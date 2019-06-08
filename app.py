@@ -22,3 +22,7 @@ DatabaseHandler.create_all()
 
 if __name__ == '__main__':
     app.run()
+
+
+def run():
+    app.run()

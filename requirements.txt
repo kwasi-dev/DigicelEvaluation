@@ -7,3 +7,4 @@ flask-cors
 bcrypt
 pandas
 xlrd
+waitress
