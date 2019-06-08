@@ -26,7 +26,7 @@ class CustomerRes(Resource):
 
         if new_cust.customer_id is None:
             return jsonify(status=False, message="An error occurred please try again")
-        return jsonify(status=True)
+        return jsonify(status=True, id=new_cust.customer_id)
 
     def get(self):
         all_customers = db.session.query(CustomerRecord).all()
@@ -38,6 +38,25 @@ class CustomerRes(Resource):
              "contact": x.contact
              }
             for x in all_customers]
+
+
+class custUpdater(Resource):
+    def put(self, customer_id):
+        json = request.get_json(force=True)
+        fName = json['fName']
+        lName = json['lName']
+        email = json['email']
+        phone = json['phone']
+
+        user = CustomerRecord.query.filter(CustomerRecord.customer_id == customer_id).first()
+        user.email = email
+        user.first_name = fName
+        user.last_name = lName
+        user.contact = phone
+
+        db.session.commit()
+
+        return jsonify(status=True)
 
 
 class LoadTestData(Resource):
@@ -67,4 +86,5 @@ class LoadTestData(Resource):
 
 
 api.add_resource(CustomerRes, '/customer')
+api.add_resource(custUpdater, '/customer/<customer_id>')
 api.add_resource(LoadTestData, '/loadTestData')

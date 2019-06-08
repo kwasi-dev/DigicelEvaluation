@@ -21,4 +21,4 @@ class ServiceRest(Resource):
             for x in all_sub]
 
 
-api.add_resource(ServiceRest, '/subscription')
+api.add_resource(ServiceRest, '/subscription')  
