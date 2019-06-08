@@ -6,6 +6,7 @@ const LOGIN_URL = BASE_URL + '/login';
 const REGISTER_URL = BASE_URL + '/register';
 const LOGOUT_URL = BASE_URL + '/logout';
 const SESSION_URL = BASE_URL + '/user';
+const CUSTOMER_URL = BASE_URL + '/customer';
 
 const HEADER_JSON = {headers: { 'Content-Type': 'application/json' }};
 
@@ -42,8 +43,12 @@ export class RestService {
     return this.http.delete(logoutURL);
   }
 
-  validateSession(session){
+  validateSession(session) {
     const sessionURL = `${SESSION_URL}/${session}`;
     return this.http.get(sessionURL, HEADER_JSON);
+  }
+
+  getCustomers() {
+    return this.http.get(CUSTOMER_URL, HEADER_JSON);
   }
 }
