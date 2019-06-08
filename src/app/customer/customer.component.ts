@@ -27,19 +27,16 @@ export class CustomerComponent implements OnInit {
     hctv: false
   };
   allServices = {};
+  currCust = {
+    customer_id: -1
+  };
 
   constructor(private rest: RestService, private chRef: ChangeDetectorRef) {
     this.mode = '';
     this.getAllServices();
   }
   ngOnInit() {
-    const table: any = $('table');
-    this.rest.getCustomers()
-      .subscribe((data: any[]) => {
-        this.customers = data;
-        this.chRef.detectChanges();
-        this.dataTable = table.DataTable();
-      });
+    this.updateDataTables();
     this.resetServicesSelected();
   }
   resetFormData() {
@@ -59,6 +56,9 @@ export class CustomerComponent implements OnInit {
 
   showCreateModal() {
     this.mode = 'Create';
+    this. currCust = {
+      customer_id: -1
+    };
     this.resetServicesSelected();
     this.resetFormData();
     this.showModal = true;
@@ -80,6 +80,7 @@ export class CustomerComponent implements OnInit {
   viewCustomer(customer) {
     this.mode = 'Edit';
     this.loadVars(customer);
+    this.currCust = customer;
 
     this.rest.loadCustomerServices(customer.customer_id).subscribe(res => {
       console.log(res);
@@ -100,8 +101,6 @@ export class CustomerComponent implements OnInit {
             this.servicesSelected.hctv = true;
             break;
         }
-        console.log(row);
-
       }
     },
       () => {
@@ -120,11 +119,11 @@ export class CustomerComponent implements OnInit {
   }
 
   createEditCustomer() {
+    if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
+      alert('Please enter all fields');
+      return;
+    }
     if (this.mode === 'Create') {
-      if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
-        alert('Please enter all fields');
-        return;
-      }
       this.rest.addCustomer(this.firstName, this.lastName, this.email, this.contact)
         .subscribe(
           res => {
@@ -132,7 +131,8 @@ export class CustomerComponent implements OnInit {
             if (result.status) {
               const newID = result.id;
               this.rest.updateSubscriptions(newID, this.getSelectedSubscriptions()).subscribe(res => {
-                console.log(res);
+                alert('New Customer added!');
+                this.updateDataTables();
               },
                 error1 => {
                 console.log(error1);
@@ -147,6 +147,26 @@ export class CustomerComponent implements OnInit {
             alert('An error occurred, please try again later');
           }
         );
+    } else {
+      const vals = {
+        fName: this.firstName,
+        lName: this.lastName,
+        email: this.email,
+        phone: this.contact
+      };
+      this.rest.updateCustomer(this.currCust.customer_id, vals).subscribe(res => {
+        console.log(res);
+        this.rest.updateSubscriptions(this.currCust.customer_id, this.getSelectedSubscriptions()).subscribe(res2 => {
+              alert('Customer Updated!');
+              this.updateDataTables();
+            },
+            error1 => {
+              console.log(error1);
+            });
+      },
+        error1 => {
+        console.log(error1);
+        });
     }
   }
 
@@ -158,5 +178,15 @@ export class CustomerComponent implements OnInit {
     if (this.servicesSelected.hctv) { result.push({id: 4}); }
 
     return {subscriptions: result};
+  }
+
+  private updateDataTables() {
+    const table: any = $('table');
+    this.rest.getCustomers()
+      .subscribe((data: any[]) => {
+        this.customers = data;
+        this.chRef.detectChanges();
+        this.dataTable = table.DataTable();
+      });
   }
 }

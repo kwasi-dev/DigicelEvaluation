@@ -76,6 +76,11 @@ export class RestService {
   updateSubscriptions(id, selectedSubscriptions) {
     const updateSubURL = `${SUBSCRIPTION_URL}/${id}`;
     return this.http.put(updateSubURL, selectedSubscriptions, HEADER_JSON);
+  }
+
+  updateCustomer(id, vals){
+    const custURL = `${CUSTOMER_URL}/${id}`;
+    return this.http.put(custURL, vals);
 
   }
 }
