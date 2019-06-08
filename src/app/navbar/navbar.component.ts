@@ -11,25 +11,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  showModal = false;
 
-  firstName: string;
-  lastName: string;
-  email: string;
-  contact: string;
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,
+              public nav: NavsvcService, private rest: RestService, private router: Router) {}
 
-  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, public nav: NavsvcService, private http: HttpClient, private rest: RestService, private router: Router) {
-  }
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   toggleSidebar() {
     this.nav.toggle();
-  }
-
-  toggleModal() {
-    this.showModal = !this.showModal;
   }
 
   logout() {
@@ -38,34 +27,4 @@ export class NavbarComponent implements OnInit {
     this.storage.remove('session_id');
     this.router.navigate(['login']);
   }
-  createCustomer() {
-    if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
-      alert('Please enter all fields');
-      return;
-    }
-    this.http.post('http://127.0.0.1:5000/customer', {
-        first_name : this.firstName,
-        last_name : this.lastName,
-        email : this.email,
-        contact : this.contact
-      },
-      {headers: { 'Content-Type': 'application/json' }}
-    ).subscribe(
-      res => {
-        const result = JSON.parse(JSON.stringify(res));
-        if (result.status) {
-          alert('Customer created successfully');
-          this.showModal = false;
-        } else {
-          alert (result.message);
-        }
-      },
-      it => {
-        console.log(it);
-        alert('An error occurred, please try again later');
-      }
-    );
-
-  }
-
 }
