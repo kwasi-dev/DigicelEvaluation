@@ -7,6 +7,7 @@ const REGISTER_URL = BASE_URL + '/register';
 const LOGOUT_URL = BASE_URL + '/logout';
 const SESSION_URL = BASE_URL + '/user';
 const CUSTOMER_URL = BASE_URL + '/customer';
+const SUBSCRIPTION_URL = BASE_URL + '/subscription';
 
 const HEADER_JSON = {headers: { 'Content-Type': 'application/json' }};
 
@@ -52,13 +53,22 @@ export class RestService {
     return this.http.get(CUSTOMER_URL, HEADER_JSON);
   }
 
-  addCustomer(firstName, lastName, mail, cntct){
-    return this.http.post(CUSTOMER_URL,{
+  addCustomer(firstName, lastName, mail, cntct) {
+    return this.http.post(CUSTOMER_URL, {
         first_name: firstName,
         last_name: lastName,
         email: mail,
         contact: cntct
       },
       HEADER_JSON);
+  }
+
+  loadCustomerServices(customerId) {
+    const subscriptionURL = `${SUBSCRIPTION_URL}/${customerId}`;
+    return this.http.get(subscriptionURL, HEADER_JSON);
+  }
+
+  getServices() {
+    return this.http.get(SUBSCRIPTION_URL, HEADER_JSON);
   }
 }

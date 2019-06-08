@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import {RestService} from "../rest.service";
+import {RestService} from '../rest.service';
 
 @Component({
   selector: 'app-customer',
@@ -19,11 +19,19 @@ export class CustomerComponent implements OnInit {
   lastName: string;
   email: string;
   contact: string;
+  mode: string;
+  servicesSelected = {
+    pp1: false,
+    pp2: false,
+    hi1: false,
+    hctv: false
+  };
+  allServices = {};
 
-  servicesSelected = {};
-  mode = '';
-
-  constructor(private rest: RestService, private chRef: ChangeDetectorRef) { }
+  constructor(private rest: RestService, private chRef: ChangeDetectorRef) {
+    this.mode = '';
+    this.getAllServices();
+  }
   ngOnInit() {
     const table: any = $('table');
     this.rest.getCustomers()
@@ -34,7 +42,7 @@ export class CustomerComponent implements OnInit {
       });
     this.resetServicesSelected();
   }
-  resetServicesSelected(){
+  resetServicesSelected() {
     this.servicesSelected = {
       pp1: false,
       pp2: false,
@@ -42,12 +50,17 @@ export class CustomerComponent implements OnInit {
       hctv: false
     };
   }
-  // onRowClick(component: any) {
-  //   console.log(component);
-  // }
+
+  showCreateModal() {
+    this.mode = 'Create';
+    this.showModal = true;
+    console.log('show modal');
+  }
   toggleModal() {
     this.showModal = !this.showModal;
-
+  }
+  hideModal() {
+    this.showModal = false;
   }
   createCustomer() {
     if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
@@ -71,4 +84,54 @@ export class CustomerComponent implements OnInit {
         }
       );
   }
+
+  loadVars(customer) {
+    this.firstName = customer.firstName;
+    this.lastName = customer.lastName;
+    this.email = customer.email;
+    this.contact = customer.contact;
+  }
+
+  viewCustomer(customer) {
+    this.mode = 'View';
+    this.loadVars(customer);
+
+    this.rest.loadCustomerServices(customer.customer_id).subscribe(res => {
+      console.log(res);
+      this.resetServicesSelected();
+      const result = JSON.parse(JSON.stringify(res));
+      for (const row of result) {
+        switch (row.service_id) {
+          case 1:
+            (this.servicesSelected).pp1 = true;
+            break;
+          case 2:
+            this.servicesSelected.pp2 = true;
+            break;
+          case 3:
+            this.servicesSelected.hi1 = true;
+            break;
+          case 4:
+            this.servicesSelected.hctv = true;
+            break;
+        }
+        console.log(row);
+
+      }
+    },
+      () => {
+      console.log('error');
+      });
+
+    this.chRef.detectChanges();
+    this.toggleModal();
+  }
+
+  getAllServices() {
+    this.rest.getServices().subscribe(res => {
+      const result = JSON.parse(JSON.stringify(res));
+      this.allServices = result.data;
+    });
+  }
+
 }
