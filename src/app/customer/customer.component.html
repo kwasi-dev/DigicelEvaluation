@@ -53,36 +53,61 @@
        </div>
        <div class="card-body">
          <form>
-           <div class="form-group input-group">
-             <div class="input-group-prepend">
-               <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+           <div class="row">
+             <div class="col-6">
+               <div class="form-group input-group">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                 </div>
+                 <input name="firstName" [(ngModel)]="firstName" class="form-control" placeholder="First Name" type="text">
+               </div> <!-- form-group// -->
+               <div class="form-group input-group">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                 </div>
+                 <input name="lastName" [(ngModel)]="lastName" class="form-control" placeholder="Last Name" type="text">
+               </div> <!-- form-group// -->
+               <div class="form-group input-group">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                 </div>
+                 <input name="email" [(ngModel)]="email" class="form-control" placeholder="Email address" type="email">
+               </div> <!-- form-group// -->
+               <div class="form-group input-group">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                 </div>
+                 <input name="contact" [(ngModel)]="contact" class="form-control" placeholder="Phone number" type="text">
+               </div> <!-- form-group// -->
              </div>
-             <input name="firstName" [(ngModel)]="firstName" class="form-control" placeholder="First Name" type="text">
-           </div> <!-- form-group// --><div class="form-group input-group">
-           <div class="input-group-prepend">
-             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+             <div class="col-6">
+               <div class="form-group input-group checkbox">
+                 <span class="font-weight-bold">Customer's services:</span>
+               </div> <!-- form-group// -->
+               <div class="form-group input-group checkbox">
+                 <label><input type="checkbox" [(ngModel)]="servicesSelected.pp1" name="pp1" value="pp1">  Postpaid 1</label>
+               </div> <!-- form-group// -->
+               <div class="form-group input-group checkbox">
+                 <label><input type="checkbox" [(ngModel)]="servicesSelected.pp2" name="pp2" value="pp2">  Postpaid 2</label>
+               </div> <!-- form-group// -->
+               <div class="form-group input-group checkbox">
+                 <label><input type="checkbox" [(ngModel)]="servicesSelected.hi1" name="hi1" value="hi1">  Home Internet 1</label>
+               </div> <!-- form-group// -->
+               <div class="form-group input-group checkbox">
+                 <label><input type="checkbox" [(ngModel)]="servicesSelected.hctv" name="hctv" value="hctv">  Home Cable TV</label>
+               </div> <!-- form-group// -->
+             </div>
            </div>
-           <input name="lastName" [(ngModel)]="lastName"  class="form-control" placeholder="Last Name" type="text">
-         </div> <!-- form-group// -->
-           <div class="form-group input-group">
-             <div class="input-group-prepend">
-               <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+           <div class="row">
+             <div class="col-6 offset-3">
+               <div class="form-group">
+                 <button type="submit" class="btn btn-primary btn-block" (click)="createCustomer()"> Create Customer</button>
+               </div> <!-- form-group// -->
+               <div class="form-group" (click)="toggleModal()">
+                 <button type="submit" class="btn btn-danger btn-block">Exit</button>
+               </div> <!-- form-group// -->
              </div>
-             <input name="email" [(ngModel)]="email"  class="form-control" placeholder="Email address" type="email">
-           </div> <!-- form-group// -->
-           <div class="form-group input-group">
-             <div class="input-group-prepend">
-               <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-             </div>
-             <input name="contact" [(ngModel)]="contact"  class="form-control" placeholder="Phone number" type="text">
-           </div> <!-- form-group// -->
-
-           <div class="form-group">
-             <button type="submit" class="btn btn-primary btn-block" (click)="createCustomer()"> Create Customer</button>
-           </div> <!-- form-group// -->
-           <div class="form-group" (click)="toggleModal()">
-             <button type="submit" class="btn btn-danger btn-block">Exit</button>
-           </div> <!-- form-group// -->
+           </div>
          </form>
        </div>
 

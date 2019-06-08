@@ -20,6 +20,9 @@ export class CustomerComponent implements OnInit {
   email: string;
   contact: string;
 
+  servicesSelected = {};
+  mode = '';
+
   constructor(private rest: RestService, private chRef: ChangeDetectorRef) { }
   ngOnInit() {
     const table: any = $('table');
@@ -29,14 +32,22 @@ export class CustomerComponent implements OnInit {
         this.chRef.detectChanges();
         this.dataTable = table.DataTable();
       });
-
+    this.resetServicesSelected();
   }
-
+  resetServicesSelected(){
+    this.servicesSelected = {
+      pp1: false,
+      pp2: false,
+      hi1: false,
+      hctv: false
+    };
+  }
   // onRowClick(component: any) {
   //   console.log(component);
   // }
   toggleModal() {
     this.showModal = !this.showModal;
+
   }
   createCustomer() {
     if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
@@ -59,6 +70,5 @@ export class CustomerComponent implements OnInit {
           alert('An error occurred, please try again later');
         }
       );
-
   }
 }
