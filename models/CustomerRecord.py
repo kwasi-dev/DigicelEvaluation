@@ -2,7 +2,7 @@ from handlers.DatabaseHandler import db
 from flask_restful import Resource
 from flask import jsonify, request
 from handlers.ApiHandler import api
-import json
+
 
 class CustomerRecord(db.Model):
     customer_id = db.Column(db.Integer, primary_key=True)
