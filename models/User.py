@@ -31,6 +31,12 @@ class User(db.Model):
     password = db.Column(db.LargeBinary())
 
 
+class sessionAPI(Resource):
+    def delete(self, sess_id):
+        session = UserSession.get_user_by_session(sess_id)
+        db.session.delete(session)
+        db.session.commit()
+
 class UserAPI(Resource):
     def get(self):
         get_params = request.args
@@ -45,6 +51,7 @@ class UserAPI(Resource):
         user = User.query.filter(User.agent_id == qry.agent_id).first()
 
         return jsonify(status=True, email=user.email, first_name=user.first_name, last_name=user.last_name)
+
 
 
 class UserReg(Resource):
@@ -90,4 +97,5 @@ class UserLogin(Resource):
 
 api.add_resource(UserReg, '/register')
 api.add_resource(UserLogin, '/login')
-api.add_resource(UserAPI, '/user', )
+api.add_resource(UserAPI, '/user')
+api.add_resource(sessionAPI, '/logout/<sess_id>')

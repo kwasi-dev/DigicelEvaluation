@@ -5,3 +5,5 @@ flask-jsonpify
 flask-restful
 flask-cors
 bcrypt
+pandas
+xlrd
