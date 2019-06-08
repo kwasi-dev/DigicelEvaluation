@@ -3,13 +3,14 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {Observable} from 'rxjs';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {RestService} from "./rest.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
-  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private  http: HttpClient) { }
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, private router: Router, private  rest: RestService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -18,13 +19,7 @@ export class AuthGuardService implements CanActivate {
       this.router.navigate(['login']);
       return false;
     }
-    const parm = new HttpParams().set('id', sessionId);
-
-    this.http.get('http://127.0.0.1:5000/user',
-      {headers: { 'Content-Type': 'application/json' },
-        params: parm
-      }
-    ).subscribe(
+    this.rest.validateSession(sessionId).subscribe(
       res => {
         const result = JSON.parse(JSON.stringify(res));
         if (result.status === false) {

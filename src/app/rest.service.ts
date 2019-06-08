@@ -5,6 +5,9 @@ const BASE_URL = 'http://127.0.0.1:5000';
 const LOGIN_URL = BASE_URL + '/login';
 const REGISTER_URL = BASE_URL + '/register';
 const LOGOUT_URL = BASE_URL + '/logout';
+const SESSION_URL = BASE_URL + '/user';
+
+const HEADER_JSON = {headers: { 'Content-Type': 'application/json' }};
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,7 @@ export class RestService {
         username: name,
         password: pass
       },
-      {headers: { 'Content-Type': 'application/json' }}
+      HEADER_JSON
     );
   }
 
@@ -30,12 +33,17 @@ export class RestService {
         l_name: lName,
         email: mail,
       },
-      {headers: { 'Content-Type': 'application/json' }}
+      HEADER_JSON
     );
   }
 
   logout(session) {
     const logoutURL = `${LOGOUT_URL}/${session}`;
     return this.http.delete(logoutURL);
+  }
+
+  validateSession(session){
+    const sessionURL = `${SESSION_URL}/${session}`;
+    return this.http.get(sessionURL, HEADER_JSON);
   }
 }
