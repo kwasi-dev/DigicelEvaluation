@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./topnavbar.component.scss']
 })
 export class TopnavbarComponent implements OnInit {
-  private name = '';
+  name = '';
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, public nav: NavsvcService, private http: HttpClient, private rest: RestService, private router: Router) { }
 
   ngOnInit() {
@@ -42,5 +42,9 @@ export class TopnavbarComponent implements OnInit {
         alert('Your session has expired. Please login again!');
         this.router.navigate(['login']);
       });
+  }
+
+  toggleNavbar() {
+    this.nav.toggle();
   }
 }

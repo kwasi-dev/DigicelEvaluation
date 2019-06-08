@@ -1,5 +1,21 @@
 # DigicelEvaluationFrontend
 
+#Installation
+
+1) Install nodeJS and npm with the following command  
+  `sudo apt install -y nodejs npm`
+
+2) Install angular with the following command
+  `sudo  -HE npm install -g n`  
+  `sudo -HE n stable`  
+  `npm install -g @angular/cli`  
+  `ng update @angular/cli @angular/core`
+    
+3) Serve the project with the following command
+  `ng serve`
+  
+  
+  
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
 
 ## Development server
