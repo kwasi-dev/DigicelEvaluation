@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {NavsvcService} from "../navsvc.service";
-import {HttpClient} from "@angular/common/http";
+import {Component, Inject, OnInit} from '@angular/core';
+import {NavsvcService} from '../navsvc.service';
+import {HttpClient} from '@angular/common/http';
+import {RestService} from '../rest.service';
+import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +18,7 @@ export class NavbarComponent implements OnInit {
   email: string;
   contact: string;
 
-  constructor(public nav: NavsvcService, private http: HttpClient,) {
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService, public nav: NavsvcService, private http: HttpClient, private rest: RestService, private router: Router) {
   }
   ngOnInit() {
   }
@@ -29,6 +32,12 @@ export class NavbarComponent implements OnInit {
     this.showModal = !this.showModal;
   }
 
+  logout() {
+    const sessionId = this.storage.get('session_id');
+    this.rest.logout(sessionId).subscribe();
+    this.storage.remove('session_id');
+    this.router.navigate(['login']);
+  }
   createCustomer() {
     if (this.firstName === undefined || this.lastName === undefined || this.email === undefined || this.contact === undefined) {
       alert('Please enter all fields');
